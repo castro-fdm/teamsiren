@@ -1,7 +1,11 @@
 <?php
+    // Enable error reporting for debugging
+    ini_set('display_errors', 1);
+    error_reporting(E_ALL);
+
     $servername = "localhost";
     $username = "root";
-    $password = ""; // change this to your password
+    $password = "Hotwheels06"; // change this to your password
     $dbname = "spa_db";
 
     // Create connection
