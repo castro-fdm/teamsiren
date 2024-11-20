@@ -32,7 +32,7 @@
                     VALUES ('$full_name', '$email', '$phone_number', '$password', '$role')";
 
             if ($conn->query($sql) === TRUE) {
-                echo "New record created successfully!";
+                header("Location: ../../admin.html");
             } else {
                 echo "Error: " . $sql . "<br>" . $conn->error;
             }
