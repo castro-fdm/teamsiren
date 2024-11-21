@@ -20,31 +20,36 @@ function displayUsers() {
     </table>
   `;
 
-  // Fetch users from the server
   fetch('/res/php/getUser.php')
-    .then(response => response.json())
-    .then(users => {
+  .then(response => {
+      if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+  })
+  .then(users => {
+      console.log(users); // Add this line to log the data
       const tableBody = document.getElementById('usersTableBody');
       tableBody.innerHTML = ''; // Clear any existing data
 
       // Populate the table with users
       users.forEach(user => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td>${user.user_id}</td>
-          <td>${user.full_name}</td>
-          <td>${user.email}</td>
-          <td>${user.phone_number}</td>
-          <td>${user.role}</td>
-          <td>${user.created_at}</td>
-          <td>${user.updated_at}</td>
-        `;
-        tableBody.appendChild(row);
+          const row = document.createElement('tr');
+          row.innerHTML = `
+              <td>${user.user_id}</td>
+              <td>${user.full_name}</td>
+              <td>${user.email}</td>
+              <td>${user.phone_number}</td>
+              <td>${user.role}</td>
+              <td>${user.created_at}</td>
+              <td>${user.updated_at}</td>
+          `;
+          tableBody.appendChild(row);
       });
-    })
-    .catch(error => {
+  })
+  .catch(error => {
       console.error('Error fetching user data:', error);
-    });
+  });
 }
   
   function displayServices() {

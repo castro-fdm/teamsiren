@@ -20,7 +20,7 @@
         $role = $conn->real_escape_string($_POST['role']);
 
         // Check if the email already exists in the database
-        $checkEmailQuery = "SELECT * FROM users WHERE email = '$email'";
+        $checkEmailQuery = "SELECT * FROM Users WHERE email = '$email'";
         $result = $conn->query($checkEmailQuery);
 
         if ($result->num_rows > 0) {
@@ -28,17 +28,14 @@
             echo "The email '$email' is already taken. Please choose a different email.";
         } else {
             // If email is not taken, insert the new user
-            $sql = "INSERT INTO users (full_name, email, phone_number, password, role) 
+            $sql = "INSERT INTO Users (full_name, email, phone_number, password, role) 
                     VALUES ('$full_name', '$email', '$phone_number', '$password', '$role')";
 
             if ($conn->query($sql) === TRUE) {
-                header("Location: ../../admin.html");
+                echo "New record created successfully"; 
             } else {
                 echo "Error: " . $sql . "<br>" . $conn->error;
             }
         }
     }
-
-    // Close the database connection
-    $conn->close();
 ?>
