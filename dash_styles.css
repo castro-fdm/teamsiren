@@ -1,0 +1,451 @@
+/* Reset header spacing */
+header {
+    background-color: white;
+    border-bottom: 1px solid #ccc;
+    padding: 15px 20px;
+    position: relative;
+    z-index: 10;
+}
+
+.page-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    min-height: 85vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Fix management buttons positioning and spacing */
+.management-buttons {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    margin-top: 120px; /* Increased from 80px to 120px for more space from header */
+    position: relative;
+    z-index: 5;
+    gap: 120px; /* Increased spacing between buttons */
+    width: 100%;
+}
+
+.button-group {
+    position: relative;
+    flex: 0 1 auto;
+}
+
+/* Fix popover positioning */
+.popover {
+    position: absolute;
+    top: calc(100% + 15px);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+    width: 300px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 25px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Center content section */
+.content-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 120px; /* Increased space between buttons and content */
+    position: relative;
+    z-index: 1;
+}
+
+/* Maintain footer position */
+footer {
+    margin-top: auto;
+    text-align: center;
+    padding: 20px 0;
+    background-color: #f1f1f1;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+/* General Styles */
+body {
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f0f9f5; /* Greenish background applied here */
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Header */
+header {
+  background-color: white;
+  border-bottom: 1px solid #ccc;
+  padding: 10px 20px;
+}
+
+header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header .logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #333;
+}
+
+header nav {
+  display: flex;
+  gap: 15px;
+}
+
+.header-btn {
+  background-color: #e5f7e9;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  color: #333;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.header-btn:hover {
+  background-color: #c9e7d1;
+}
+
+/* Hero Section */
+.hero-section {
+  padding: 30px 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.management-buttons {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  margin-top: 120px; /* Increased from 80px to 120px for more space from header */
+  position: relative;
+  z-index: 5;
+  gap: 120px;
+  width: 100%;
+}
+
+.button-group {
+  flex: 0 1 auto;
+  position: relative;
+}
+
+.content-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 120px;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-card {
+  background-color: white;
+  padding: 40px 30px;
+  border-radius: 15px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  width: 100%;
+  text-align: center;
+}
+
+.hero-card h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.hero-card p {
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: #666;
+  margin-bottom: 0;
+}
+
+.book-now {
+  margin-top: 30px;
+  width: 100%;
+  text-align: center;
+}
+
+.book-btn {
+  background-color: #8bc34a;
+  border: none;
+  padding: 15px 30px;
+  color: white;
+  font-size: 1.2rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.book-btn:hover {
+  background-color: #78ac3c;
+}
+
+/* Main Content */
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+  margin-top: 40px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 40px auto;
+}
+
+.button-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  margin: 0 15px;
+}
+
+.main-btn {
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  padding: 15px 20px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  width: 180px;
+  min-width: auto;
+}
+
+.main-btn:hover {
+  background-color: #e5f7e9;
+  color: #000;
+}
+
+/* Booking Page Styles */
+.booking-steps {
+  max-width: 800px;
+  margin: 30px auto;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.booking-steps h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.service-selection, .therapist-selection {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+
+/* Service Cards - Original look */
+.service-card {
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  flex: 1 1 30%;
+}
+
+.service-card:hover {
+  background-color: #e5f7e9;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transform: translateY(-5px);
+}
+
+.service-card.selected {
+  background-color: #e5f7e9;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transform: translateY(-5px);
+}
+
+/* Therapist Buttons - Original look */
+.therapist-selection .therapist-btn {
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.therapist-selection .therapist-btn:hover {
+  background-color: #e5f7e9;
+  transform: translateY(-3px);
+}
+
+.therapist-selection .therapist-btn.selected {
+  background-color: #e5f7e9;
+  transform: translateY(-3px);
+}
+
+/* Schedule Cards - Original look restored */
+.schedule-selection {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.schedule-card {
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 15px 20px;
+  text-align: center;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.schedule-card:hover {
+  background-color: #e5f7e9;
+}
+
+.schedule-card.selected {
+  background-color: #e5f7e9;
+}
+
+/* Continue Button */
+.continue-button {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.continue-button .book-btn {
+  background-color: #8bc34a;
+  border: none;
+  padding: 15px 30px;
+  color: white;
+  font-size: 1.2rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.continue-button .book-btn:hover {
+  background-color: #78ac3c;
+}
+
+/* Footer */
+footer {
+  margin-top: auto;
+  text-align: center;
+  padding: 20px 0;
+  background-color: #f1f1f1;
+  color: #666;
+  font-size: 0.9rem;
+  width: 100%;
+}
+
+/* Popover Styles */
+.popover {
+  display: none;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 25px;
+  margin-top: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  position: absolute;
+  top: calc(100% + 10px); /* Position below the button */
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%); /* Offset by half width to truly center */
+  z-index: 101; /* Ensure it appears above other elements */
+}
+
+.popover h3 {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.popover p {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+.management-buttons {
+  display: flex;
+  justify-content: space-evenly; /* Changed from space-between to space-evenly */
+  padding: 20px;
+  margin-top: 40px; /* Increased from 20px to create more space from header */
+  width: 100%;
+  max-width: 900px; /* Limits the maximum spread of buttons */
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  z-index: 2;
+}
+
+.button-group {
+  position: relative;
+  margin: 0 20px; /* Adds horizontal spacing between buttons */
+}
+
+.content-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 120px;
+  position: relative;
+  z-index: 1;
+}
+
+.popover {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3; /* Ensures popovers appear above everything */
+}
+
+footer {
+    margin-top: auto;
+    text-align: center;
+    padding: 20px 0;
+    background-color: #f1f1f1;
+    width: 100%;
+}
