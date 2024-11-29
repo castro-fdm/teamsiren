@@ -34,10 +34,10 @@
         <h2>Our Services</h2>
         <div class="service-card-container">
             <div class="service-card">
-            <img src="https://media.istockphoto.com/id/469916170/photo/young-woman-relaxing-during-back-massage-at-the-spa.jpg?s=612x612&w=0&k=20&c=E96oMIIPfdq4sOhC3frI7x2uWFrOw71Bw5hih-BxaaY=" alt="Massage Therapy" class="service-image">
-            <h3>Massage Therapy</h3>
-            <p>Relax and unwind with our professional massage services.</p>
-            <button>Book Now</button>
+                <img src="https://media.istockphoto.com/id/469916170/photo/young-woman-relaxing-during-back-massage-at-the-spa.jpg?s=612x612&w=0&k=20&c=E96oMIIPfdq4sOhC3frI7x2uWFrOw71Bw5hih-BxaaY=" alt="Massage Therapy" class="service-image">
+                <h3>Massage Therapy</h3>
+                <p>Relax and unwind with our professional massage services.</p>
+                <button>Book Now</button>
             </div>
             <div class="service-card">
                 <img src="https://media.istockphoto.com/id/1399469980/photo/close-up-portrait-of-anorganic-facial-mask-application-at-spa-salon-facial-treatment-skin.jpg?s=612x612&w=0&k=20&c=ZvZi_bdGLicsykUtlrHgQe70ftZzd_xPKvq2vzfOyV0=" alt="Facial Treatment">
@@ -68,7 +68,7 @@
             </div>
             <div class="feedback-card">
                 <p>"Truly relaxing and refreshing."</p>
-                <span>- Alvic palongyas</span>
+                <span>- Alvic Palongyas</span>
             </div>
         </div>
     </section>
@@ -76,6 +76,23 @@
     <!-- Login Section -->
     <section id="login" class="login-section">
         <h2>Login</h2>
+        <!-- Show error messages if any -->
+        <?php
+        if (isset($_GET['error'])) {
+            $error = $_GET['error'];
+            if ($error == 'empty_fields') {
+                echo "<p class='error'>Please fill in all fields.</p>";
+            } elseif ($error == 'invalid_credentials') {
+                echo "<p class='error'>Invalid username or password.</p>";
+            } elseif ($error == 'invalid_role') {
+                echo "<p class='error'>Invalid role selected.</p>";
+            } elseif ($error == 'invalid_password') {
+                echo "<p class='error'>Incorrect password. Please try again.</p>";
+            } elseif ($error == 'user_not_found') {
+                echo "<p class='error'>No user found with this username.</p>";
+            }
+        }
+        ?>
         <form action="process_login.php" method="POST" class="login-form">
             <select name="role" required>
                 <option value="" disabled selected>Login As</option>

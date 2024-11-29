@@ -6,7 +6,7 @@
 
     $host = 'localhost'; // Change as needed
     $username = 'root'; // Change as needed
-    $password = 'Hotwheels06'; // Change as needed
+    $password = ''; // Change as needed
     $database = 'spa_db';
 
     // Establish the connection using MySQLi
