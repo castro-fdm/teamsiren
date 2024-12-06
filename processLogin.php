@@ -39,21 +39,40 @@
 
                     // Redirect to role-specific pages
                     if ($user['role'] == 'admin') {
-                        header("Location: admin.html");
+                        // Check if the user exists and is an admin
+                        $stmt = $conn->prepare("SELECT user_id, password, role FROM Users WHERE username = ?");
+                        $stmt->bind_param("s", $username);
+                        $stmt->execute();
+                        $stmt->bind_result($id, $hashedPassword, $role);
+                        $stmt->fetch();
+                        $stmt->close();
+
+                        // Validate credentials and role
+                        if ($role === 'admin' && password_verify($password, $hashedPassword)) {
+                            // Set session variables
+                            $_SESSION['user_id'] = $id;
+                            $_SESSION['role'] = $role;
+
+                            // Redirect to the admin dashboard
+                            header("Location: admin-dashboard.php");
+                            exit();
+                        } else {
+                            $error = "Invalid admin credentials or not an admin.";
+                        }
                     } elseif ($user['role'] == 'therapist') {
-                        header("Location: client_dash.html");
+                        header("Location: index.php");
                     } else {
                         header("Location: index.php");
                     }
                     exit;
                 } else {
                     // Invalid password
-                    header("Location: index.php?error=invalid_password");
+                    header("Location: login.php?error=invalid_password");
                     exit;
                 }
             } else {
                 // User not found
-                header("Location: index.php?error=user_not_found");
+                header("Location: login.php?error=user_not_found");
                 exit;
             }
 

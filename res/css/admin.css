@@ -121,3 +121,52 @@ section[id="main"] {
   color: #337ab7;
   text-decoration: none;
 }
+
+#table {
+  width: 100%;
+  max-width: calc(100% - 25%);
+  border-collapse: collapse;
+  margin-top: 20px;
+  font-family: Arial, sans-serif;
+}
+
+#table th, #table td {
+  border: 1px solid #ddd;  /* Light gray border */
+  padding: 10px;
+  text-align: left;
+}
+
+#table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+#table tr:nth-child(even) {
+  background-color: #f9f9f9; /* Light gray for even rows */
+}
+
+#table tr:hover {
+  background-color: #e2e2e2; /* Darker gray for hover effect */
+}
+
+.add-btn {
+  background-color: #4CAF50; /* Green background */
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
+.add-btn:hover {
+  background-color: #45a049; /* Slightly darker green on hover */
+  cursor: pointer;
+}
+
+.add-btn:focus {
+  outline: none;
+}

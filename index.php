@@ -1,22 +1,37 @@
+<?php
+    session_start();
+    include 'db.php';
+
+    $user_role = $_SESSION['role'] ?? null;
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Spa</title>
+    <title>The Spa-la-la-la</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/res/css/style.css">
+    <link rel="stylesheet" href="/res/css/landing.css">
 </head>
 <body>
     <!-- Header -->
     <header>
         <div class="header-container">
-            <h1>The Spa</h1>
+            <a href="index.php" style="text-decoration: none; color: #fff;"><h1>The Spa-la-la-la</h1></a>
             <nav class="nav-links">
-                <a href="#services">Services</a>
+                <?php if ($user_role === 'customer'): ?>
+                    <a href="services.php">Services</a>
+                <?php else: $user_role === 'therapist'; ?>
+                    <p></p>
+                <?php endif; ?>
                 <a href="#feedback">Feedback</a>
-                <a href="login.php">Login</a>
-                <a href="signup.php">Signup</a>
+                <?php if (isset($_SESSION['user_id'])): ?>
+                    <li><a href="profile.php"><?= htmlspecialchars($_SESSION['username']) ?></a></li>
+                    <li><a href="logout.php">Logout</a></li>
+                <?php else: ?>
+                    <li><a href="login.php">Login</a></li>
+                <?php endif; ?>
             </nav>
         </div>
     </header>
@@ -26,7 +41,7 @@
         <div class="banner-text">
             <h2>Relax. Refresh. Renew.</h2>
             <p>Your ultimate destination for rejuvenation and relaxation.</p>
-            <button onclick="alert('Booking system coming soon!')">Book Now</button>
+            <a href="services.php" class="cta-button"><button>Book Now</button></a>
         </div>
     </section>
 
@@ -74,7 +89,7 @@
         </div>
     </section>
     <footer>
-        <p>&copy; 2024 The Spa. All rights reserved.</p>
+        <p>&copy; 2024 Spa-la-la-la. All rights reserved.</p>
     </footer>
 </body>
 </html>

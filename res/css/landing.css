@@ -38,10 +38,15 @@ header h1 {
     font-size: 2rem;
 }
 
-.nav-links a {
+.nav-links {
+    display: flex;
+}
+
+.nav-links a, li {
     color: white;
     margin: 0 15px;
     text-decoration: none;
+    list-style: none;
     font-size: 1.1rem;
     font-weight: 600;
 }
