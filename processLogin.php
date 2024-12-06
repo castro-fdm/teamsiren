@@ -1,7 +1,7 @@
 <?php
     // Start the session
     session_start();
-    include'res/php/db.php';
+    include 'db.php';
 
     // Check if form is submitted
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -41,9 +41,9 @@
                     if ($user['role'] == 'admin') {
                         header("Location: admin.html");
                     } elseif ($user['role'] == 'therapist') {
-                        header("Location: therapist_dashboard.html");
+                        header("Location: client_dash.html");
                     } else {
-                        header("Location: user_dashboard.html");
+                        header("Location: index.php");
                     }
                     exit;
                 } else {

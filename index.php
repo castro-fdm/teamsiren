@@ -15,7 +15,8 @@
             <nav class="nav-links">
                 <a href="#services">Services</a>
                 <a href="#feedback">Feedback</a>
-                <a href="/login.php">Login</a>
+                <a href="login.php">Login</a>
+                <a href="signup.php">Signup</a>
             </nav>
         </div>
     </header>

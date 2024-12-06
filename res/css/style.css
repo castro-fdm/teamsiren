@@ -191,13 +191,15 @@ header h1 {
 }
 
 /* Login Section */
-.login-section {
+.login-section,
+.signup-section {
     background-color: #f0f8ff;
     padding: 40px 20px;
     text-align: center;
 }
 
-.login-form {
+.login-form,
+.signup-form {
     display: flex;
     flex-direction: column;
     max-width: 400px;
@@ -209,7 +211,9 @@ header h1 {
 }
 
 .login-form select,
-.login-form input {
+.login-form input,
+.signup-form select,
+.signup-form input {
     margin: 10px 0;
     padding: 10px;
     border: 1px solid #ccc;
@@ -217,7 +221,8 @@ header h1 {
     font-size: 1rem;
 }
 
-.login-form button {
+.login-form button,
+.signup-form button {
     padding: 12px;
     background-color: #4CAF50;
     color: white;
@@ -228,7 +233,8 @@ header h1 {
     transition: all 0.3s ease;
 }
 
-.login-form button:hover {
+.login-form button:hover,
+.signup-form button:hover {
     background-color: #388e3c;
     transform: scale(1.05);
 }

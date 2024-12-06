@@ -37,7 +37,7 @@
         }
     }
     ?>
-    <form action="/res/php/processLogin.php" method="POST" class="login-form">
+    <form action="processLogin.php" method="POST" class="login-form">
         <select name="role" required>
             <option value="" disabled selected>Login As</option>
             <option value="admin">Admin</option>
