@@ -5,55 +5,41 @@
     if (!isset($_SESSION['user_id'])) {
         header('Location: login.php');
         exit();
-    }elseif($_SESSION['role'] == 'therapist') {
+    } elseif ($_SESSION['role'] == 'therapist') {
         echo "<script>
                 alert('You are not authorized to access this page.');
                 window.location.href = 'index.php'; // Redirect to the profile page
             </script>";
         exit();
-    } elseif ($_SESSION['role'] == 'customer') {
-        echo '';
     }
 
-    // Fetch services from the database
-    $query = "SELECT * FROM Services";
-    $result = $conn->query($query);
+    // Fetch services based on price range filter
+    $minPrice = isset($_GET['min_price']) && is_numeric($_GET['min_price']) ? intval($_GET['min_price']) : 0;
+    $maxPrice = isset($_GET['max_price']) && is_numeric($_GET['max_price']) ? intval($_GET['max_price']) : 10000;
 
+    $query = "SELECT * FROM Services WHERE price BETWEEN $minPrice AND $maxPrice";
+    $result = $conn->query($query);
 
     // Check if services were found
     $services = [];
     if ($result && $result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
-            $services[] = $row; // Store the services in an array
+            $services[] = $row;
         }
     }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/res/css/services.css">
     <title>Services</title>
-</head>
-<body>
     <style>
-        /* General Styles */
         body {
             font-family: 'Open Sans', sans-serif;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            line-height: 1.6;
             background-color: #f7f7f7;
-            color: #333;
-        }
-
-        h1, h2 {
-            font-family: 'Roboto', sans-serif;
-            text-align: center;
-            margin-bottom: 20px;
         }
 
         /* Header */
@@ -96,81 +82,137 @@
             text-decoration: underline;
         }
 
-        /* Services Section */
         #services-section {
-            height: 100vh;
-            padding: 40px;
-            background-color: #f7f7f7;
+            display: flex;
+            padding: 20px;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: #fff;
+            padding: 20px;
+            margin-right: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar form label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        .sidebar form input {
+            width: calc(100% - 20px);
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .sidebar form button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            width: 100%;
+            border-radius: 5px;
+            cursor: pointer;
         }
 
         .services-card {
             display: flex;
             flex-wrap: wrap;
             justify-content: space-around;
+            flex-grow: 1;
         }
 
         .service-item {
-            background-color: white;
+            width: 300px;
+            background: white;
             padding: 20px;
             margin: 10px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 300px;
+            border-radius: 10px;
             text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .service-item h3 {
-            font-size: 1.5rem;
-            color: #333;
-        }
-
-        .service-item p {
-            font-size: 1rem;
-            color: #555;
             margin: 10px 0;
         }
 
-        .service-item a {
-            text-decoration: none;
+        .service-item p {
+            margin: 5px 0;
         }
 
-        .service-item button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 8px 12px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .service-item button:hover {
-            background-color: #45a049;
-        }
-
-        /* Book Now Button Styling */
         .btn-book-now {
             display: inline-block;
             background-color: #4CAF50;
             color: white;
             padding: 10px 20px;
-            text-align: center;
             text-decoration: none;
             border-radius: 5px;
             font-weight: bold;
-            margin-top: 15px;
         }
 
-        .btn-book-now:hover {
-            background-color: #45a049;
-        }
-        /* Footer */
-        footer {
-            background-color: #4CAF50;
-            color: white;
-            padding: 15px 0;
+        .services-title {
+            width: 100%;
             text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .card-section {
+            flex-grow: 1;
+        }
+
+        /* Add slider-specific styles */
+        .slider-container {
+            width: calc(100% - 20px);
+            margin-top: 20px;
+        }
+
+        .slider-label {
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .price-range {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        #price-slider {
+            width: 100%;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 8px;
+            background: #ddd;
+            border-radius: 5px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        #price-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            background: #4CAF50;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        #price-slider::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            background: #4CAF50;
+            border-radius: 50%;
+            cursor: pointer;
         }
     </style>
+</head>
+<body>
     <!-- Header -->
     <header>
         <div class="header-container">
@@ -188,27 +230,48 @@
         </div>
     </header>
     <section id="services-section">
-        <h1>Our Services</h1>
-        <div class="services-card">
-            <?php
-            if (!empty($services)) {
-                foreach ($services as $service) {
-                    echo '<div class="service-item">';
-                    echo '<h3>' . htmlspecialchars($service['service_name']) . '</h3>';
-                    echo '<p>' . htmlspecialchars($service['description']) . '</p>';
-                    echo '<p>Duration: ' . htmlspecialchars($service['duration']) . ' minutes</p>';
-                    echo '<p>Price: ₱' . number_format($service['price'], 2) . '</p>';
-                    echo '<a href="book.php?service_id=' . $service['service_id'] . '" class="btn-book-now">Book Now</a>';
-                    echo '</div>';
-                }
-            } else {
-                echo '<p>No services available at the moment.</p>';
-            }
-            ?>
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h3>Filter by Price</h3>
+            <form method="GET" action="services.php" id="price-form">
+                <div class="slider-container">
+                    <label for="price-slider" class="slider-label">Select Price Range:</label>
+                    <input type="range" id="price-slider" name="max_price" min="0" max="10000" step="500" value="<?= htmlspecialchars($maxPrice) ?>" 
+                           oninput="updatePriceDisplay(this.value)">
+                    <div class="price-range">
+                        <span>₱0</span>
+                        <span id="price-display">₱<?= htmlspecialchars($maxPrice) ?></span>
+                    </div>
+                </div>
+                <input type="hidden" name="min_price" value="0">
+                <button type="submit">Apply Filters</button>
+            </form>
+        </div>
+        <div class="card-section">
+            <div class="services-title">
+                <h1>Our Services</h1>
+            </div>
+            <div class="services-card">
+                <?php if (!empty($services)): ?>
+                    <?php foreach ($services as $service): ?>
+                        <div class="service-item">
+                            <h3><?= htmlspecialchars($service['service_name']) ?></h3>
+                            <p><?= htmlspecialchars($service['description']) ?></p>
+                            <p>Duration: <?= htmlspecialchars($service['duration']) ?> mins</p>
+                            <p>Price: ₱<?= number_format($service['price'], 2) ?></p>
+                            <a href="book.php?service_id=<?= $service['service_id'] ?>" class="btn-book-now">Book Now</a>
+                        </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p>No services available within the selected price range.</p>
+                <?php endif; ?>
+            </div>
         </div>
     </section>
-    <footer>
-        <p>&copy; 2024 The Spa-la-la-la. All rights reserved.</p>
-    </footer>
+    <script>
+        function updatePriceDisplay(value) {
+            document.getElementById('price-display').textContent = `₱${value}`;
+        }
+    </script>
 </body>
 </html>

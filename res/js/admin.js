@@ -196,7 +196,44 @@ function displayPayments() {
 }
 
 function displayAvailability() {
-  updateInfoCategory('Availability', '<p>Feature not implemented yet.</p>');
+    showLoading(); // Show loading message while fetching data
+
+    fetch('getAvailability.php')  // Fetch availability data from the server
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(availability => {
+            const tableContent = `
+                <table id="table">
+                    <thead>
+                        <tr>
+                            <th>Therapist</th>
+                            <th>Date</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${availability.map(avail => `
+                            <tr>
+                                <td>${avail.therapist_name}</td>
+                                <td>${avail.date}</td>
+                                <td>${avail.start_time}</td>
+                                <td>${avail.end_time}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+            updateInfoCategory('Availability', tableContent);
+        })
+        .catch(error => {
+            console.error('Error fetching availability data:', error);
+            showError(error);
+        });
 }
 
 function displayReviews() {

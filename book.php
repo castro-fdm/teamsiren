@@ -2,14 +2,8 @@
     session_start();
     include 'db.php';
 
-    // Check if user is logged in
-    if (!isset($_SESSION['user_id'])) {
-        header("Location: login.php");
-        exit("You must log in to book an appointment.");
-    }
-
     // Fetch the available services and therapists
-    $service_id = $_GET['service_id'] ?? null; // Assuming the service_id is passed as a GET parameter
+    $service_id = $_GET['service_id'] ?? null;
     $service = null;
     if ($service_id) {
         $stmt = $conn->prepare("SELECT * FROM Services WHERE service_id = ?");
@@ -30,6 +24,7 @@
 <head>
     <link rel="stylesheet" href="/res/css/dash_styles.css">
     <script defer src="dash_scripts.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>Book Appointment</title>
 </head>
 <body>
@@ -91,11 +86,9 @@
             text-decoration: underline;
         }
     </style>
-
-    <!-- Header -->
     <header>
         <div class="header-container">
-            <a href="index.php" style="text-decoration: none; color: #fff;"><h1>The Spa</h1></a>
+            <a href="index.php" style="text-decoration: none; color: #fff;"><h1>The Spa-la-la-la</h1></a>
             <nav class="nav-links">
                 <a href="#services">Services</a>
                 <a href="#feedback">Feedback</a>
@@ -109,7 +102,6 @@
         </div>
     </header>
 
-    <!-- Main content -->
     <main>
         <div class="booking-steps">
             <h2>Book Your Appointment</h2>
@@ -134,59 +126,54 @@
                 </div>
 
                 <h2>2. Choose a Schedule</h2>
-                <div class="schedule-selection">
-                    <!-- Date Picker for appointment date -->
-                    <label for="appointment_date">Choose Appointment Date:</label>
-                    <input type="date" id="appointment_date" name="appointment_date" required>
-
-                    <!-- Time Picker for start time -->
-                    <label for="start_time">Choose Start Time:</label>
-                    <input type="time" id="start_time" name="start_time" required>
-
-                    <!-- Time Picker for end time -->
-                    <label for="end_time">Choose End Time:</label>
-                    <input type="time" id="end_time" name="end_time" required>
+                <div id="availability-section">
+                    <p>Select a therapist to view their available time slots.</p>
                 </div>
-                <div class="continue-button">
-                    <input type="hidden" name="service_id" value="<?= $service_id ?>">
-                    <input type="hidden" name="user_id" value="<?= $_SESSION['user_id'] ?>">
-                    <input type="hidden" name="therapist_id" id="therapist_id" required>
-                    <button class="book-btn" type="submit">
-                        Continue to Date & Time
-                    </button>
-                </div>
+
+                <h2>3. Submit your Appointment</h2>
+                <input type="hidden" name="service_id" value="<?= $service['service_id'] ?>">
+                <input type="hidden" name="user_id" value="<?= $_SESSION['user_id'] ?>">
+
+                <!-- Hidden fields for therapist and availability -->
+                <input type="hidden" name="therapist_id" id="therapist-id">
+                <input type="hidden" name="availability_id" id="availability-id">
+
+                <button type="submit">Book Appointment</button>
             </form>
         </div>
     </main>
-    <script>
-        // JavaScript to handle therapist selection
-        document.querySelectorAll('.therapist-btn').forEach(button => {
-            button.addEventListener('click', function() {
-                // Store the therapist ID in the hidden input
-                const therapistId = this.getAttribute('data-therapist-id');
-                document.getElementById('therapist_id').value = therapistId;
 
-                // Highlight the selected therapist (optional, for UX)
-                document.querySelectorAll('.therapist-btn').forEach(btn => btn.classList.remove('selected'));
-                this.classList.add('selected');
+    <footer>
+        <p>&copy; 2024 The Spa-la-la-la. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Handle therapist selection with AJAX
+        $(document).on('click', '.therapist-btn', function() {
+            var therapistId = $(this).data('therapist-id');
+            
+            // Set the therapist_id hidden field value
+            $('#therapist-id').val(therapistId);
+
+            // Make an AJAX call to get the availability for the selected therapist
+            $.ajax({
+                url: 'fetch-availability.php',
+                method: 'GET',
+                data: { therapist_id: therapistId },
+                success: function(response) {
+                    // Display the availability of the therapist
+                    $('#availability-section').html(response);
+                }
             });
         });
 
-        // Form validation to ensure end time is later than start time
-        const form = document.querySelector('form');
-        form.addEventListener('submit', function(event) {
-            const startTime = document.getElementById('start_time').value;
-            const endTime = document.getElementById('end_time').value;
-
-            if (startTime >= endTime) {
-                alert('End time must be later than start time.');
-                event.preventDefault();  // Prevent form submission
-            }
+        // Handle time slot selection
+        $(document).on('change', 'input[name="appointment_time"]', function() {
+            var availabilityId = $(this).val();
+            
+            // Set the availability_id hidden field value
+            $('#availability-id').val(availabilityId);
         });
     </script>
-    <!-- Footer -->
-    <footer>
-        <p>2024 Therapeutic Spa Center. All rights reserved.</p>
-    </footer>
 </body>
 </html>

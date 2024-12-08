@@ -75,15 +75,14 @@
         .nav-links a:hover {
             text-decoration: underline;
         }
+
         /* Login Section */
-        .login-section,
         .signup-section {
             background-color: #f0f8ff;
             padding: 40px 20px;
             text-align: center;
         }
 
-        .login-form,
         .signup-form {
             display: flex;
             flex-direction: column;
@@ -95,8 +94,6 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
-        .login-form select,
-        .login-form input,
         .signup-form select,
         .signup-form input {
             margin: 10px 0;
@@ -106,7 +103,6 @@
             font-size: 1rem;
         }
 
-        .login-form button,
         .signup-form button {
             padding: 12px;
             background-color: #4CAF50;
@@ -118,7 +114,6 @@
             transition: all 0.3s ease;
         }
 
-        .login-form button:hover,
         .signup-form button:hover {
             background-color: #388e3c;
             transform: scale(1.05);
@@ -137,25 +132,40 @@
     <section id="signup" class="signup-section">
         <h1>User Registration Form</h1>
         <form action="userAdd.php" method="POST" class="signup-form">
-            <label for="username">Username</label><br>
-            <input type="text" id="username" name="username" required><br><br>
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required>
             
-            <label for="email">Email:</label><br>
-            <input type="email" id="email" name="email" required><br>
-            <span id="emailError" style="color: red; display: none;">Email is already taken, please choose another one.</span><br><br>
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+            <span id="emailError" style="color: red; display: none;">Email is already taken, please choose another one.</span>
             
-            <label for="phone_number">Phone Number:</label><br>
-            <input type="text" id="phone_number" name="phone_number" required><br><br>
+            <label for="phone_number">Phone Number</label>
+            <input type="text" id="phone_number" name="phone_number" required>
             
-            <label for="password">Password:</label><br>
-            <input type="password" id="password" name="password" required><br><br>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
             
-            <label for="role">Role:</label><br>
+            <label for="role">Role</label>
             <select id="role" name="role" required>
                 <option value="customer">Customer</option>
                 <option value="therapist">Therapist</option>
                 <option value="admin">Admin</option>
-            </select><br><br>
+            </select>
+
+            <!-- Availability Fields for Therapist -->
+            <div id="availability-section" style="display: none;">
+                <h2>Therapist Availability</h2>
+                
+                <label for="availability_date">Select Availability Date</label>
+                <input type="date" id="availability_date" name="availability_date">
+                
+                <label for="start_time">Start Time</label>
+                <input type="time" id="start_time" name="start_time">
+                
+                <label for="end_time">End Time</label>
+                <input type="time" id="end_time" name="end_time">
+            </div>
+
             <button type="submit">Submit</button>
         </form>
     </section>
@@ -191,6 +201,17 @@
                     });
                 } else {
                     $('#emailError').hide();
+                }
+            });
+
+            // Display availability section only if therapist role is selected
+            $('#role').change(function() {
+                if ($(this).val() === 'therapist') {
+                    $('#availability-section').show();
+                    $('#availability_date, #start_time, #end_time').attr('required', true);
+                } else {
+                    $('#availability-section').hide();
+                    $('#availability_date, #start_time, #end_time').removeAttr('required');
                 }
             });
         });

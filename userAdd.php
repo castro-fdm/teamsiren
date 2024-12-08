@@ -11,7 +11,7 @@
         $email = trim($_POST['email']);
         $phone_number = trim($_POST['phone_number']);
         $password = trim($_POST['password']);
-        $role = trim($_POST['role']);
+        $role = trim($_POST['role']);  // Ensure the role is passed correctly
 
         // Check if email or username already exists
         $checkQuery = "SELECT * FROM Users WHERE email = ? OR username = ?";
@@ -35,11 +35,46 @@
         $stmt->bind_param('sssss', $username, $email, $phone_number, $hashedPassword, $role);
 
         if ($stmt->execute()) {
-            // Redirect to index.php upon successful registration
+            // Get the last inserted user_id
+            $user_id = $stmt->insert_id;
+
+            if ($role === 'customer') {
+                // Additional logic for customers can be added here if needed
+                // Currently, just redirect after successful registration
+                header("Location: signup.php?success=1");
+            } elseif ($role === 'therapist') {
+                // Handle therapist-specific logic
+                if (isset($_POST['availability_date']) && isset($_POST['start_time']) && isset($_POST['end_time'])) {
+                    $availability_date = trim($_POST['availability_date']);
+                    $start_time = trim($_POST['start_time']);
+                    $end_time = trim($_POST['end_time']);
+                    
+                    // Insert availability into Availability table
+                    $availabilityQuery = "INSERT INTO Availability (therapist_id, date, start_time, end_time) VALUES (?, ?, ?, ?)";
+                    $stmtAvailability = $conn->prepare($availabilityQuery);
+                    $stmtAvailability->bind_param('isss', $user_id, $availability_date, $start_time, $end_time);
+                    
+                    if (!$stmtAvailability->execute()) {
+                        // Handle failure in inserting availability
+                        header("Location: signup.php?error=Failed to add therapist availability");
+                        exit();
+                    }
+                    $stmtAvailability->close();
+                } else {
+                    // Redirect if availability data is not provided
+                    header("Location: signup.php?error=Availability data missing");
+                    exit();
+                }
+            }
+
+            // Redirect to signup page with success message
             header("Location: signup.php?success=1");
         } else {
+            // Registration failed
             header("Location: signup.php?error=Failed to register user");
         }
+
+        // Close the statements and connection
         $stmt->close();
         $conn->close();
     } else {
